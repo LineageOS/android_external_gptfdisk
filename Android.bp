@@ -82,6 +82,7 @@ cc_library_static {
     name: "libgptf",
     defaults: ["gptfdisk_default_flags"],
     host_supported: true,
+    recovery_available: true,
 
     export_include_dirs: ["."],
     srcs: lib_common_srcs + ["diskio-unix.cc"],
@@ -99,4 +100,21 @@ cc_library_static {
     cflags: ["-DENABLE_HEAP_DISKIO"],
 
     shared_libs: ["libext2_uuid"],
+}
+
+cc_library {
+    name: "libsgdisk",
+    recovery_available: true,
+
+    defaults: ["gptfdisk_default_flags"],
+
+    srcs: [
+        "sgdisk.cc",
+    ],
+    cflags: [
+        "-Dmain=sgdisk_main",
+    ],
+
+    shared_libs: ["libext2_uuid"],
+    static_libs: ["libgptf"],
 }
