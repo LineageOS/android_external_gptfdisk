@@ -1,6 +1,5 @@
-cc_binary {
-    name: "sgdisk",
-    host_supported: true,
+cc_defaults {
+    name: "sgdisk_defaults",
 
     srcs: [
         "sgdisk.cc",
@@ -25,8 +24,15 @@ cc_binary {
         "-Wno-pragma-pack",
         "-Werror",
     ],
-
+    
     shared_libs: ["libext2_uuid"],
+}
+
+cc_binary {
+    name: "sgdisk",
+    host_supported: true,
+
+    defaults: ["sgdisk_defaults"],
 
     target: {
         darwin: {
@@ -36,4 +42,14 @@ cc_binary {
             ],
         },
     },
+}
+
+cc_library {
+    name: "libsgdisk",
+    recovery_available: true,
+
+    defaults: ["sgdisk_defaults"],
+    cflags: [
+        "-Dmain=sgdisk_main",
+    ],
 }
