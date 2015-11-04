@@ -33,6 +33,18 @@ LOCAL_MODULE := sgdisk
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
+LOCAL_CPP_EXTENSION := .cc
+ifeq ($(HOST_OS),darwin)
+LOCAL_CFLAGS := -D_FILE_OFFSET_BITS=64 -Doff64_t=off_t
+endif
+LOCAL_CFLAGS += -Dmain=sgdisk_main
+LOCAL_C_INCLUDES := $(LOCAL_PATH) external/e2fsprogs/lib
+LOCAL_SRC_FILES := $(sgdisk_src_files)
+LOCAL_MODULE := libsgdisk_static
+LOCAL_MODULE_TAGS := optional
+include $(BUILD_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 
 LOCAL_CPP_EXTENSION := .cc
 
