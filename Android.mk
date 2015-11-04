@@ -32,6 +32,22 @@ LOCAL_MODULE := sgdisk
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
+LOCAL_CPP_EXTENSION := .cc
+LOCAL_C_INCLUDES := $(LOCAL_PATH) external/e2fsprogs/lib
+LOCAL_SRC_FILES := $(sgdisk_src_files)
+LOCAL_STATIC_LIBRARIES := libc libc++_static libm libext2_uuid
+LOCAL_MODULE := recovery_sgdisk
+LOCAL_MODULE_STEM := sgdisk
+LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
+LOCAL_MODULE_TAGS := optional
+
+
+LOCAL_FORCE_STATIC_EXECUTABLE := true
+
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
 
 LOCAL_CPP_EXTENSION := .cc
 
