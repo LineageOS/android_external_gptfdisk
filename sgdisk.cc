@@ -86,6 +86,7 @@ static int android_dump(char* device) {
     return 0;
 }
 
+extern "C" {
 int main(int argc, char *argv[]) {
     for (int i = 0; i < argc; i++) {
         if (!strcmp("--android-dump", argv[i])) {
@@ -95,4 +96,5 @@ int main(int argc, char *argv[]) {
 
     GPTDataCL theGPT;
     return theGPT.DoOptions(argc, argv);
+}
 }
