@@ -365,7 +365,10 @@ int GPTDataCL::DoOptions(int argc, char* argv[]) {
                      partNum = newPartNum;
                   if ((partNum >= 0) && (partNum < (int) GetNumParts())) {
                      // Remember the original hex value requested
-                     typeRaw[partNum] = GetString(typeCode, 2);
+                     string raw = GetString(typeCode, 2);
+                     if (raw.size() == 4) {
+                        typeRaw[partNum] = StrToHex(raw, 0);
+                     }
                      typeHelper = GetString(typeCode, 2);
                      if ((typeHelper != (GUIDData) "00000000-0000-0000-0000-000000000000") &&
                          (ChangePartType(partNum, typeHelper))) {
@@ -499,10 +502,7 @@ int GPTDataCL::BuildMBR(char* argument, int isHybrid) {
                // If we were created with a specific hex type, use that instead
                // of risking fidelity loss by doing a GUID-based lookup
                if (typeRaw.count(origPartNum) == 1) {
-                  string raw = typeRaw[origPartNum];
-                  if (raw.size() == 4) {
-                     newPart.SetType(StrToHex(raw, 0));
-                  }
+                  newPart.SetType(typeRaw[origPartNum]);
                }
                newMBR.AddPart(i + isHybrid, newPart);
             } else {

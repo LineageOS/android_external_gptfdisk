@@ -37,7 +37,7 @@ class GPTDataCL : public GPTData {
       int alignment, deletePartNum, infoPartNum, largestPartNum, bsdPartNum;
       uint32_t tableSize;
       poptContext poptCon;
-      std::map<int, string> typeRaw;
+      std::map<int, char> typeRaw;
 
       int BuildMBR(char* argument, int isHybrid);
    public:
