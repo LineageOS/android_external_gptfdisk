@@ -20,25 +20,22 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include "sgdisk.h"
+
 using namespace std;
 
 #define MAX_OPTIONS 50
 
-/*
- * Dump partition details in a machine readable format:
- *
- * DISK [mbr|gpt] [guid]
- * PART [n] [type] [guid]
- */
-static int android_dump(char* device) {
+int sgdisk_read(const char* device, sgdisk_partition_table& ptbl,
+                vector<sgdisk_partition>& partitions) {
     BasicMBRData mbrData;
     GPTData gptData;
     GPTPart partData;
     int numParts = 0;
-    stringstream res;
 
     /* Silence noisy underlying library */
-    int stdout = dup(STDOUT_FILENO);
+    int stdout_fd = dup(STDOUT_FILENO);
+    int stderr_fd = dup(STDERR_FILENO);
     int silence = open("/dev/null", 0);
     dup2(silence, STDOUT_FILENO);
     dup2(silence, STDERR_FILENO);
@@ -50,11 +47,16 @@ static int android_dump(char* device) {
 
     switch (mbrData.GetValidity()) {
     case mbr:
-        res << "DISK mbr" << endl;
-        for (int i = 0; i < MAX_MBR_PARTS; i++) {
+        ptbl.type = MBR;
+        ptbl.guid.clear();
+        for (size_t i = 0; i < MAX_MBR_PARTS; i++) {
             if (mbrData.GetLength(i) > 0) {
-                res << "PART " << (i + 1) << " " << hex
-                        << (int) mbrData.GetType(i) << dec << endl;
+                char typebuf[2+8+1];
+                sprintf(typebuf, "%x", (unsigned int)mbrData.GetType(i));
+                sgdisk_partition part;
+                part.num = i + 1;
+                part.type = typebuf;
+                partitions.push_back(part);
             }
         }
         break;
@@ -66,14 +68,17 @@ static int android_dump(char* device) {
             return 9;
         }
 
-        res << "DISK gpt " << gptData.GetDiskGUID() << endl;
-        numParts = gptData.GetNumParts();
-        for (int i = 0; i < numParts; i++) {
+        ptbl.type = GPT;
+        ptbl.guid = gptData.GetDiskGUID().AsString();
+        for (size_t i = 0; i < gptData.GetNumParts(); i++) {
             partData = gptData[i];
             if (partData.GetFirstLBA() > 0) {
-                res << "PART " << (i + 1) << " " << partData.GetType() << " "
-                        << partData.GetUniqueGUID() << " "
-                        << partData.GetDescription() << endl;
+                sgdisk_partition part;
+                part.num = i + 1;
+                part.type = partData.GetType().AsString();
+                part.guid = partData.GetUniqueGUID().AsString();
+                part.name = partData.GetDescription();
+                partitions.push_back(part);
             }
         }
         break;
@@ -82,10 +87,48 @@ static int android_dump(char* device) {
         return 10;
     }
 
-    /* Write our actual output */
-    string resString = res.str();
-    write(stdout, resString.c_str(), resString.length());
+    fflush(stdout);
+    fflush(stderr);
+    dup2(stdout_fd, STDOUT_FILENO);
+    dup2(stderr_fd, STDERR_FILENO);
+    close(silence);
+
     return 0;
+}
+
+/*
+ * Dump partition details in a machine readable format:
+ *
+ * DISK [mbr|gpt] [guid]
+ * PART [n] [type] [guid]
+ */
+static int android_dump(const char* device) {
+    sgdisk_partition_table ptbl;
+    vector<sgdisk_partition> partitions;
+    int rc = sgdisk_read(device, ptbl, partitions);
+    if (rc == 0) {
+        stringstream res;
+        switch (ptbl.type) {
+        case MBR:
+            res << "DISK mbr" << endl;
+            for (auto& part : partitions) {
+                res << "PART " << part.num << " " << part.type << endl;
+            }
+            break;
+        case GPT:
+            res << "DISK gpt " << ptbl.guid << endl;
+            for (auto& part : partitions) {
+                res << "PART " << part.num << " " << part.type << " "
+                    << part.guid << " " << part.name << endl;
+            }
+            break;
+        default:
+            return 10;
+        }
+        string partStr = res.str();
+        write(STDOUT_FILENO, partStr.c_str(), partStr.length());
+    }
+    return rc;
 }
 
 extern "C" int main(int argc, char *argv[]) {
