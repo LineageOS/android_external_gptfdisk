@@ -38,6 +38,6 @@ struct sgdisk_partition {
 };
 
 int sgdisk_read(const char* device, sgdisk_partition_table& ptbl,
-                std::vector<sgdisk_partition>& partitions);
+                std::vector<sgdisk_partition*>& partitions);
 
 #endif

@@ -27,7 +27,7 @@ using namespace std;
 #define MAX_OPTIONS 50
 
 int sgdisk_read(const char* device, sgdisk_partition_table& ptbl,
-                vector<sgdisk_partition>& partitions) {
+                vector<sgdisk_partition*>& partitions) {
     BasicMBRData mbrData;
     GPTData gptData;
     GPTPart partData;
@@ -53,9 +53,9 @@ int sgdisk_read(const char* device, sgdisk_partition_table& ptbl,
             if (mbrData.GetLength(i) > 0) {
                 char typebuf[2+8+1];
                 sprintf(typebuf, "%x", (unsigned int)mbrData.GetType(i));
-                sgdisk_partition part;
-                part.num = i + 1;
-                part.type = typebuf;
+                sgdisk_partition* part = new sgdisk_partition;
+                part->num = i + 1;
+                part->type = typebuf;
                 partitions.push_back(part);
             }
         }
@@ -72,11 +72,11 @@ int sgdisk_read(const char* device, sgdisk_partition_table& ptbl,
         for (size_t i = 0; i < gptData.GetNumParts(); i++) {
             partData = gptData[i];
             if (partData.GetFirstLBA() > 0) {
-                sgdisk_partition part;
-                part.num = i + 1;
-                part.type = partData.GetType().AsString();
-                part.guid = partData.GetUniqueGUID().AsString();
-                part.name = partData.GetDescription();
+                sgdisk_partition* part = new sgdisk_partition;
+                part->num = i + 1;
+                part->type = partData.GetType().AsString();
+                part->guid = partData.GetUniqueGUID().AsString();
+                part->name = partData.GetDescription();
                 partitions.push_back(part);
             }
         }
@@ -95,48 +95,6 @@ int sgdisk_read(const char* device, sgdisk_partition_table& ptbl,
     return 0;
 }
 
-/*
- * Dump partition details in a machine readable format:
- *
- * DISK [mbr|gpt] [guid]
- * PART [n] [type] [guid]
- */
-static int android_dump(const char* device) {
-    sgdisk_partition_table ptbl;
-    vector<sgdisk_partition> partitions;
-    int rc = sgdisk_read(device, ptbl, partitions);
-    if (rc == 0) {
-        stringstream res;
-        switch (ptbl.type) {
-        case MBR:
-            res << "DISK mbr" << endl;
-            for (auto& part : partitions) {
-                res << "PART " << part.num << " " << part.type << endl;
-            }
-            break;
-        case GPT:
-            res << "DISK gpt " << ptbl.guid << endl;
-            for (auto& part : partitions) {
-                res << "PART " << part.num << " " << part.type << " "
-                    << part.guid << " " << part.name << endl;
-            }
-            break;
-        default:
-            return 10;
-        }
-        string partStr = res.str();
-        write(STDOUT_FILENO, partStr.c_str(), partStr.length());
-    }
-    return rc;
-}
-
 extern "C" int main(int argc, char *argv[]) {
-    for (int i = 0; i < argc; i++) {
-        if (!strcmp("--android-dump", argv[i])) {
-            return android_dump(argv[i + 1]);
-        }
-    }
-
-    GPTDataCL theGPT;
-    return theGPT.DoOptions(argc, argv);
+    return 0;
 }
