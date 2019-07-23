@@ -39,6 +39,7 @@ enum GPTValidity {gpt_valid, gpt_corrupt, gpt_invalid};
 enum WhichToUse {use_gpt, use_mbr, use_bsd, use_new, use_abort};
 
 // Header (first 512 bytes) of GPT table
+#pragma pack(push)
 #pragma pack(1)
 struct GPTHeader {
    uint64_t signature;
@@ -204,6 +205,7 @@ public:
    void GetAttribute(const uint32_t partNum, const string& attributeBits);
 
 }; // class GPTData
+#pragma pack(pop)
 
 // Function prototypes....
 int SizesOK(void);
