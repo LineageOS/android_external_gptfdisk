@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e1988af_91087acc",
+        "filename": "sgdisk.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5503
+      },
+      "writtenOn": "2019-07-23T19:43:12Z",
+      "side": 1,
+      "message": "partitions is never deleted, nor are the elements.",
+      "revId": "14e4665c9e16bd30e637ea60165f5bd00cbd5770",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
