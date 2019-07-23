@@ -57,6 +57,7 @@ struct  BSDRecord {      // the partition table
 // Full data in tweaked BSD format
 // For some reason this has to be packed or MS Visual C++'s debugger complains
 // about memory errors whenever a BSDData variable is destroyed.
+#pragma pack(push)
 #pragma pack (8)
 class BSDData {
    protected:
@@ -90,5 +91,7 @@ class BSDData {
       GPTPart AsGPT(int i); // Return BSD part. as GPT part.
 }; // struct MBRData
 #pragma pack ()
+
+#pragma pack(pop)
 
 #endif
