@@ -26,6 +26,7 @@ using namespace std;
 
 // A 512-byte data structure into which the MBR can be loaded in one
 // go. Also used when loading logical partitions.
+#pragma pack(push)
 #pragma pack(1)
 struct TempMBR {
    uint8_t code[440];
@@ -150,5 +151,7 @@ public:
    int DoMenu(const string& prompt = "\nMBR command (? for help): ");
    void ShowCommands(void);
 }; // class BasicMBRData
+
+#pragma pack(pop)
 
 #endif
