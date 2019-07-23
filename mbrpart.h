@@ -41,6 +41,7 @@ using namespace std;
 // On read of logical entries, it's relative to the EBR record for that
 // partition. When writing EBR records, it's relative to the extended
 // partition's start.
+#pragma pack(push)
 #pragma pack(1)
 struct MBRRecord {
    uint8_t status;
@@ -109,5 +110,7 @@ public:
     // User I/O...
     void ShowData(int isGpt);
 }; // MBRPart
+
+#pragma pack(pop)
 
 #endif // MBRPART_H
