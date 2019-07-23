@@ -16,11 +16,11 @@
 #include <iostream>
 #include <sstream>
 #include <errno.h>
-#include "gptcl.h"
 #include <fcntl.h>
 #include <unistd.h>
 
 #include "sgdisk.h"
+#include "gptcl.h"
 
 using namespace std;
 
