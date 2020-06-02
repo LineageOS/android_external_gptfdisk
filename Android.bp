@@ -4,6 +4,33 @@ cc_binary {
 
     srcs: [
         "sgdisk.cc",
+    ],
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-pragma-pack",
+        "-Werror",
+    ],
+
+    shared_libs: ["libext2_uuid"],
+    static_libs: ["libgptf"],
+
+    target: {
+        darwin: {
+            cflags: [
+                "-D_FILE_OFFSET_BITS=64",
+                "-Doff64_t=off_t",
+            ],
+        },
+    },
+}
+
+cc_library_static {
+    name: "libgptf",
+    host_supported: true,
+
+    export_include_dirs:["."],
+
+    srcs: [
         "gptcl.cc",
         "crc32.cc",
         "support.cc",
@@ -24,16 +51,8 @@ cc_binary {
         "-Wno-unused-parameter",
         "-Wno-pragma-pack",
         "-Werror",
+        "-fPIC",
     ],
 
     shared_libs: ["libext2_uuid"],
-
-    target: {
-        darwin: {
-            cflags: [
-                "-D_FILE_OFFSET_BITS=64",
-                "-Doff64_t=off_t",
-            ],
-        },
-    },
 }
