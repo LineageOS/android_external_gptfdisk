@@ -14,14 +14,6 @@ cc_binary {
     shared_libs: ["libext2_uuid"],
     static_libs: ["libgptf"],
 
-    target: {
-        darwin: {
-            cflags: [
-                "-D_FILE_OFFSET_BITS=64",
-                "-Doff64_t=off_t",
-            ],
-        },
-    },
 }
 
 cc_library_static {
@@ -53,6 +45,15 @@ cc_library_static {
         "-Werror",
         "-fPIC",
     ],
+
+    target: {
+        darwin: {
+            cflags: [
+                "-D_FILE_OFFSET_BITS=64",
+                "-Doff64_t=off_t",
+            ],
+        },
+    },
 
     shared_libs: ["libext2_uuid"],
 }
