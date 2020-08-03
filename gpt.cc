@@ -952,7 +952,10 @@ int GPTData::LoadPartitionTable(const struct GPTHeader & header, DiskIO & disk, 
    uint32_t sizeOfParts, newCRC;
    int retval;
 
-   if (disk.OpenForRead()) {
+   if (header.sizeOfPartitionEntries != sizeof(GPTPart)) {
+      cerr << "Error! GPT header contains invalid partition entry size!\n";
+      retval = 0;
+   } else if (disk.OpenForRead()) {
       if (sector == 0) {
          retval = disk.Seek(header.partitionEntriesLBA);
       } else {
