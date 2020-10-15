@@ -1,51 +1,11 @@
-cc_binary {
-    name: "sgdisk",
-    host_supported: true,
-
-    srcs: [
-        "sgdisk.cc",
-    ],
-    cflags: [
-        "-Wno-unused-parameter",
-        "-Wno-pragma-pack",
-        "-Werror",
-    ],
-
-    shared_libs: ["libext2_uuid"],
-    static_libs: ["libgptf"],
-
-}
-
-cc_library_static {
-    name: "libgptf",
-    host_supported: true,
-
-    export_include_dirs:["."],
-
-    srcs: [
-        "gptcl.cc",
-        "crc32.cc",
-        "support.cc",
-        "guid.cc",
-        "gptpart.cc",
-        "mbrpart.cc",
-        "basicmbr.cc",
-        "mbr.cc",
-        "gpt.cc",
-        "bsd.cc",
-        "parttypes.cc",
-        "attributes.cc",
-        "diskio.cc",
-        "diskio-unix.cc",
-        "android_popt.cc",
-    ],
+cc_defaults {
+    name: "gptfdisk_default_flags",
     cflags: [
         "-Wno-unused-parameter",
         "-Wno-pragma-pack",
         "-Werror",
         "-fPIC",
     ],
-
     target: {
         darwin: {
             cflags: [
@@ -54,6 +14,57 @@ cc_library_static {
             ],
         },
     },
+}
+
+cc_binary {
+    name: "sgdisk",
+    defaults: ["gptfdisk_default_flags"],
+    host_supported: true,
+
+    srcs: [
+        "sgdisk.cc",
+    ],
+
+    shared_libs: ["libext2_uuid"],
+    static_libs: ["libgptf"],
+}
+
+lib_common_srcs = [
+    "gptcl.cc",
+    "crc32.cc",
+    "support.cc",
+    "guid.cc",
+    "gptpart.cc",
+    "mbrpart.cc",
+    "basicmbr.cc",
+    "mbr.cc",
+    "gpt.cc",
+    "bsd.cc",
+    "parttypes.cc",
+    "attributes.cc",
+    "diskio.cc",
+    "android_popt.cc",
+]
+
+cc_library_static {
+    name: "libgptf",
+    defaults: ["gptfdisk_default_flags"],
+    host_supported: true,
+
+    export_include_dirs: ["."],
+    srcs: lib_common_srcs + ["diskio-unix.cc"],
+
+    shared_libs: ["libext2_uuid"],
+}
+
+cc_library_static {
+    name: "libgptf_fuzzer_lib",
+    defaults: ["gptfdisk_default_flags"],
+    host_supported: true,
+
+    export_include_dirs: ["."],
+    srcs: lib_common_srcs + ["diskio-heap.cc"],
+    cflags: ["-DENABLE_HEAP_DISKIO"],
 
     shared_libs: ["libext2_uuid"],
 }

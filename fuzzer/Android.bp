@@ -1,0 +1,22 @@
+cc_fuzz {
+    name: "libgptf_fuzzer",
+    srcs: ["libgptf_fuzzer.cc"],
+    cflags: ["-DENABLE_HEAP_DISKIO"],
+    host_supported: true,
+    corpus: ["corpus/*"],
+    static_libs: ["libgmock"],
+    target: {
+        android: {
+            static_libs: [
+                "libgptf_fuzzer_lib",
+                "libext2_uuid",
+            ],
+        },
+        host: {
+            static_libs: [
+                "libgptf_fuzzer_lib",
+                "libext2_uuid",
+            ],
+        },
+    },
+}
