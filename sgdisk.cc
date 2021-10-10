@@ -60,6 +60,7 @@ int sgdisk_read(const char* device, sgdisk_partition_table& ptbl,
             }
         }
         break;
+    case hybrid:
     case gpt:
         gptData.JustLooking();
         if (!gptData.LoadPartitions((string) device)) {
