@@ -58,6 +58,7 @@ cc_binary {
 
     shared_libs: ["libext2_uuid"],
     static_libs: ["libgptf"],
+    recovery_available: true,
 }
 
 lib_common_srcs = [
