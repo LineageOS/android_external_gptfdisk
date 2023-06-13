@@ -51,6 +51,7 @@ cc_binary {
     name: "sgdisk",
     defaults: ["gptfdisk_default_flags"],
     host_supported: true,
+    recovery_available: true,
 
     srcs: [
         "sgdisk.cc",
