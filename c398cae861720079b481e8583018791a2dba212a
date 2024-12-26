@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "923b50ac_9e04e304",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2024-12-26T03:50:08Z",
+      "side": 1,
+      "message": "Prereq for https://review.lineageos.org/c/LineageOS/android_hardware_nvidia_boot_control/+/412756",
+      "revId": "c398cae861720079b481e8583018791a2dba212a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
