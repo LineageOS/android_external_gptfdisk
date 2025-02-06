@@ -87,6 +87,8 @@ cc_library_static {
     defaults: ["gptfdisk_default_flags"],
     host_supported: true,
     recovery_available: true,
+    product_available: true,
+    vendor_available: true,
 
     export_include_dirs: ["."],
     srcs: lib_common_srcs + ["diskio-unix.cc"],
