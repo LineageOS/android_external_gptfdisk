@@ -58,7 +58,10 @@ cc_binary {
 
     shared_libs: ["libext2_uuid"],
     static_libs: ["libgptf"],
-    visibility: ["//visibility:any_system_partition"],
+    visibility: [
+        "//build/make/tools/otatools_package",
+        "//visibility:any_system_partition",
+    ],
 }
 
 lib_common_srcs = [
