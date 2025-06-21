@@ -131,7 +131,7 @@ static int android_dump(const char* device) {
     return rc;
 }
 
-extern "C" int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     for (int i = 0; i < argc; i++) {
         if (!strcmp("--android-dump", argv[i])) {
             return android_dump(argv[i + 1]);
