@@ -16,6 +16,24 @@
       "message": "external/gptfdisk/sgdisk.cc:134:16: error: \u0027main\u0027 should not be \u0027extern \"C\"\u0027 [-Werror,-Wmain]\n  134 | extern \"C\" int main(int argc, char *argv[]) {\n      |                ^\n1 error generated.",
       "revId": "51b63031504e27502ffa23e834c7369c77f70276",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2832f66c_6ca84e47",
+        "filename": "sgdisk.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2025-06-22T06:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b9d8ab2_4fe7f7da",
+      "revId": "51b63031504e27502ffa23e834c7369c77f70276",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
