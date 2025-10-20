@@ -60,6 +60,7 @@ cc_binary {
     static_libs: ["libgptf"],
     visibility: [
         "//build/make/tools/otatools_package",
+        "//device/google/desktop/common/layout",
         "//visibility:any_system_partition",
     ],
 }
