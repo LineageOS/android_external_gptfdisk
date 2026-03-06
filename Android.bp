@@ -61,6 +61,7 @@ cc_binary {
     visibility: [
         "//build/make/tools/otatools_package",
         "//device/google/desktop/common/layout",
+        "//vendor:__subpackages__",
         "//visibility:any_system_partition",
     ],
 }
