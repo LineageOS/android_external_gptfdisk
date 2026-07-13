@@ -16,6 +16,24 @@
       "message": "(yes, this is still a thing on 24.0)",
       "revId": "835377af6b401a7b8ea26ffd2199c197eb3fa742",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aef0d6d_189e8e29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2026-07-13T00:19:50Z",
+      "side": 1,
+      "message": "Used by shippable devices?",
+      "parentUuid": "88fdbe6f_8279caff",
+      "revId": "835377af6b401a7b8ea26ffd2199c197eb3fa742",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
