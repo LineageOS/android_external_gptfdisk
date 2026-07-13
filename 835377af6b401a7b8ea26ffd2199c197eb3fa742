@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88fdbe6f_8279caff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16185
+      },
+      "writtenOn": "2026-07-13T00:19:14Z",
+      "side": 1,
+      "message": "(yes, this is still a thing on 24.0)",
+      "revId": "835377af6b401a7b8ea26ffd2199c197eb3fa742",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
